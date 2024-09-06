@@ -64,8 +64,9 @@ jobs:
         run: cargo test --all-features
 
       - name: Check formatting
-        working-directory: ./src-tauri
         uses: actions-rust-lang/rustfmt@v1
+        working-directory: ./src-tauri
+
         
   build-tauri:
     name: Build tauri
