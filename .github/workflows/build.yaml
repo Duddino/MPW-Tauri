@@ -80,8 +80,11 @@ jobs:
         uses: actions/setup-node@v4
           
       - name: Install Node.js dependencies
-        run: npm ci
-
+        run: npm ci && cd ./MPW && npm ci
+        
+      - name: Build MPW
+        run: cd ./MPW && npm run build
+        
       - name: Build tauri
         run: npm run tauri build
       
