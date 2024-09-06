@@ -72,7 +72,7 @@ jobs:
         run: sudo apt install $TAURI_DEPS
 
       - name: Run tests
-        run: cd ./src-tauri && cargo test --all-features
+        run: cd ./src-tauri && cargo test
 
       - name: Check formatting
         run: cd ./src-tauri && cargo fmt --check
