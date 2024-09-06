@@ -28,22 +28,23 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v4
 
-      - name: Change Directory to MPW
-        run: cd MPW/
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
 
       - name: Install Node.js dependencies
+        working-directory: ./MPW
         run: npm ci
 
       - name: Run ESlint
+        working-directory: ./MPW
         run: npm run lint
         
       - name: Run prettier
+        working-directory: ./MPW
         run: npx prettier -l .
         
       - name: Run tests
+        working-directory: ./MPW
         run: npm test
   run-linters-tauri:
     name: Run linters (Tauri)
@@ -52,9 +53,6 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v4
-        
-      - name: Change directory to Tauri
-        run: cd src-tauri/
 
       - name: Set up Rust
         uses: actions-rust-lang/setup-rust-toolchain@v1
@@ -62,9 +60,11 @@ jobs:
           components: rustfmt
 
       - name: Run tests
+        working-directory: ./src-tauri
         run: cargo test --all-features
 
       - name: Check formatting
+        working-directory: ./src-tauri
         uses: actions-rust-lang/rustfmt@v1
         
   build-tauri:
