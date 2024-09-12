@@ -21,6 +21,9 @@ pub enum PIVXErrors {
 
     #[error("Invalid sha256 sum")]
     WrongSha256Sum(Option<std::io::Error>),
+
+    #[error("Unable to auth with the pivxd node")]
+    UnableToAuthPIVXD(#[from] bitcoincore_rpc::Error),
 }
 
 pub type Result<T> = std::result::Result<T, PIVXErrors>;

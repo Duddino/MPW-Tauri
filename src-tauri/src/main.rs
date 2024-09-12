@@ -3,6 +3,7 @@
 
 use pivx::PIVXDefinition;
 
+mod address_index;
 mod binary;
 mod error;
 mod pivx;
