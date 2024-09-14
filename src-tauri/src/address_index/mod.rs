@@ -13,9 +13,11 @@ pub struct AddressIndex<D: Database, B: BlockSource> {
     block_source: B,
 }
 
-impl<D: Database + Send, B: BlockSource+ Send> AddressIndex<D, B> {
+impl<D: Database + Send, B: BlockSource + Send> AddressIndex<D, B> {
     pub async fn sync(&mut self) -> crate::error::Result<()> {
-        while let Some(block) = self.block_source.get_blocks()?.next().await {
+        println!("Starting sync");
+	let mut stream = self.block_source.get_blocks()?;
+        while let Some(block) = stream.next().await {
             for tx in block.txs {
                 self.database.store_tx(tx).await?;
             }

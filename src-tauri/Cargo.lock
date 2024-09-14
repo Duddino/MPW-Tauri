@@ -2044,6 +2044,7 @@ dependencies = [
 name = "mpw-tauri"
 version = "0.1.0"
 dependencies = [
+ "base64 0.22.1",
  "derive_more 1.0.0",
  "dirs",
  "flate2",

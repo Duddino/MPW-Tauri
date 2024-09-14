@@ -42,7 +42,7 @@ impl Database for SqlLite {
         let txid = tx.txid;
         let mut stmt = self
             .connection
-            .prepare("INSERT INTO transactions (txid, address) VALUES ('?1', '?2');")?;
+            .prepare("INSERT OR IGNORE INTO transactions (txid, address) VALUES (?1, ?2);")?;
         for address in tx.addresses {
             stmt.execute(params![txid, address])?;
         }

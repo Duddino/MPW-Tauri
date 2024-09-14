@@ -16,7 +16,12 @@ pub struct Tx {
 
 #[derive(Deserialize, Debug)]
 struct Vout {
-    pub addresses: Vec<String>,
+    #[serde(rename = "scriptPubKey")]
+    pub script_pub_key: Option<ScriptPubKey>,
+}
+#[derive(Deserialize, Debug)]
+struct ScriptPubKey {
+    pub addresses: Option<Vec<String>>,
 }
 
 fn concat_addresses<'de, D>(deserializer: D) -> Result<Vec<String>, D::Error>
@@ -24,9 +29,11 @@ where
     D: Deserializer<'de>,
 {
     let vouts: Vec<Vout> = Vec::deserialize(deserializer)?;
-    let mut addresses = vec![];
+    let mut addresses: Vec<String> = vec![];
     for vout in vouts {
-        addresses.extend(vout.addresses);
+	if let Some(vout_addresses) = vout.script_pub_key.and_then(|s|s.addresses) {
+            addresses.extend(vout_addresses);
+	}
     }
     Ok(addresses)
 }
@@ -55,6 +62,8 @@ mod test {
         {
             "txid": "456",
             "vout": [
+                {
+                },
                 {
                     "addresses": ["Address3"]
                 },
